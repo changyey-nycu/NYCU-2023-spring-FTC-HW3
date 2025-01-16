@@ -1,0 +1,27 @@
+version: '3.6'  
+services:
+
+  primaryDB:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=passwd
+      - POSTGRES_DB=eVoting
+    ports:
+      - "8001:5432"
+    volumes:
+      - ./db/primaryDB:/var/lib/postgresql/data
+      - ./sqls/init.sql:/docker-entrypoint-initdb.d/init.sql
+  backupDB:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=passwd
+      - POSTGRES_DB=eVoting
+    ports:
+      - "8002:5432"
+    volumes:
+      - ./db/backupDB:/var/lib/postgresql/data
+      - ./sqls/init.sql:/docker-entrypoint-initdb.d/init.sql
